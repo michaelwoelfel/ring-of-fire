@@ -1,0 +1,85 @@
+.start-screen {
+    background-image: url("../../assets/img/start-screen.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100%;
+    max-width: 100%;
+    margin: 0;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+        height: 150;
+    }
+}
+
+h1 {
+    font-size: 80px;
+}
+.fire {
+    color: #ff3f17;
+}
+
+.img-left {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.img-right {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+}
+
+.img-right-bottom {
+    position: absolute;
+    bottom: 10%;
+    right: 10%;
+}
+
+.img-left-bottom {
+    position: absolute;
+    bottom: 10%;
+    left: 10%;
+}
+
+.glightbox_video {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    &:hover {
+        cursor: pointer;
+    }
+    }
+  
+  .outer_circle {
+    stroke-width: 3;
+    stroke-dasharray: 410; 
+     stroke-dashoffset: 0;
+    stroke-linecap: square;
+    transition: all .4s ease-out;
+  }
+  
+  .glightbox_video:hover .outer_circle {
+  stroke-dashoffset:410;
+    transition: stroke .7s .4s ease-out, stroke-dashoffset .4s ease-out;
+    
+  }
+  
+  .glightbox_video:hover 
+  .inner-circle {
+    fill: #BF2428;
+    transition:fill .4s .3s ease-out;
+  }
+  
+  .glightbox_video:hover
+  .play{
+      fill: white;
+    transition:fill .4s .3s ease-out;
+  }
+
