@@ -25,8 +25,9 @@
 .top-card {
     transition: all 125ms ease-in-out;
     cursor: pointer;
-
-
+    &:hover {
+        transform: scale(1.1);
+    }
 }
 
 .pick-card {
@@ -34,6 +35,11 @@
     animation: pick-card-animation 2s ease-in-out;
     transform: scale(1.2) translateX(200px);
     transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg)
+}
+
+.playedCard {
+    right: 25px;
+    transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg);
 }
 
 
