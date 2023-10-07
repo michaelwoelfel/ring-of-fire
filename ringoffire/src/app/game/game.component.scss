@@ -69,3 +69,13 @@
         transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg);
     }
 }
+
+.add-button {
+    position: absolute;
+    z-index: 100;
+    bottom: 5%;
+    left: 5%;
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+}
