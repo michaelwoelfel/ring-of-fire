@@ -1,0 +1,61 @@
+.playboard {
+    background-image: url("../../assets/img/wood.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100vw;
+    height: 100%;
+    max-width: 100%;
+    margin: 0;
+    color: white;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-stack {
+    position: absolute;
+
+    img {
+        position: absolute;
+        height: 250px;
+    }
+}
+
+.top-card {
+    transition: all 125ms ease-in-out;
+    cursor: pointer;
+
+
+}
+
+.pick-card {
+    transition: all 125ms ease-in-out;
+    animation: pick-card-animation 2s ease-in-out;
+    transform: scale(1.2) translateX(200px);
+    transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg)
+}
+
+
+@keyframes pick-card-animation {
+    0% {
+        transform: scale(1);
+    }
+
+    40% {
+        transform: scale(1.7);
+    }
+
+    30% {
+        transform: scale(1.7);
+    }
+
+
+    50% {
+        transform: scale(1.7);
+    }
+
+    100% {
+        transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg);
+    }
+}
