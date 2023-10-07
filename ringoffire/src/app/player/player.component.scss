@@ -1,0 +1,21 @@
+.player-container {
+    height:100px;
+    width: 250px;
+    margin-left: 20px;
+    margin-top: 20px;
+    position: absolute;
+    background-color: orange;
+    border-radius: 20px;
+    color: white;
+}
+
+.player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+
+    img {
+        height: 100px;
+    }
+}

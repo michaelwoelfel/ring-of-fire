@@ -42,6 +42,10 @@
     transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg);
 }
 
+.player-container {
+    position: absolute;
+}
+
 
 @keyframes pick-card-animation {
     0% {
