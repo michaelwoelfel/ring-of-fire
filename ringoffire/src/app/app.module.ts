@@ -16,6 +16,7 @@ import { GameDescriptionComponent } from './game-description/game-description.co
 import { Component, OnInit,Input, OnChanges, SimpleChanges  } from '@angular/core';
 import {MatDialog, MatDialogRef, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
+import { EndscreenComponent } from './endscreen/endscreen.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {MatButtonModule} from '@angular/material/button';
     PlayerComponent,
     DialogAddPlayerComponent,
     GameDescriptionComponent,
+    EndscreenComponent,
   ],
   imports: [
     AppRoutingModule,

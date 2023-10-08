@@ -13,6 +13,7 @@ export class GameComponent implements OnInit {
   readyToStart = true;;
   currentCard: string = '';
   game: Game;
+  gameOver = false;
   constructor(public dialog: MatDialog) {
     this.game = new Game();
 
@@ -36,15 +37,18 @@ export class GameComponent implements OnInit {
     } else {
       console.log('No cards available');
     }
+    this.pushCurrentCard();
+  }else {
+    this.readyToStart = false;
+  } 
+  }
+
+  pushCurrentCard() {
     setTimeout(() => {
       this.game.playedCard.push(this.currentCard);
       this.pickCardAnimation = false;
       this.checkNextPlayer();
     }, 2000)
-  }else {
-    this.readyToStart = false;
-  } 
-
   }
 
   checkNextPlayer() {
@@ -55,9 +59,23 @@ export class GameComponent implements OnInit {
     } {
  
   }
-
-  console.log(this.game.stack.length);
+  console.log( 'karten verfügbar',this.game.stack.length);
+ 
   }
+
+  get cardArray(): number[] {
+    const maxCards = 5;
+    let start = Math.max(maxCards - this.game.stack.length, 0);
+    console.log(start);
+    if  ( this.game.stack.length == 0) {
+      setTimeout(() => {
+        this.gameOver = true;
+      }, 5000)
+    }
+    return [1, 2, 3, 4, 5].slice(start);
+  
+  }
+  
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
