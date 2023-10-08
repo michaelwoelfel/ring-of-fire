@@ -1,12 +1,17 @@
 .player-container {
-    height:100px;
-    width: 250px;
+    height:50px;
+    width: 180px;
     margin-left: 20px;
     margin-top: 20px;
     position: absolute;
-    background-color: orange;
+    background-color: silver;
+    opacity: 0.9;
     border-radius: 20px;
-    color: white;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .player {
@@ -14,8 +19,15 @@
     justify-content: center;
     align-items: center;
     white-space: nowrap;
+    text-align: center;
+    font-size: 20px;
 
     img {
-        height: 100px;
+        height: 50px;
     }
 }
+
+.player-active {
+    background-color: #FFD740;
+}
+

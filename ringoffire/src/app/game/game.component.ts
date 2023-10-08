@@ -10,6 +10,7 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 })
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
+  readyToStart = true;;
   currentCard: string = '';
   game: Game;
   constructor(public dialog: MatDialog) {
@@ -26,29 +27,47 @@ export class GameComponent implements OnInit {
   }
 
   pickCard() {
+    if (this.game.players.length >= 2) {
+      this.readyToStart = true;
     const card = this.game.stack.pop();
     if (card !== undefined && !this.pickCardAnimation) {
       this.currentCard = card;
-      console.log(this.currentCard);
       this.pickCardAnimation = true;
-
     } else {
       console.log('No cards available');
     }
-
     setTimeout(() => {
       this.game.playedCard.push(this.currentCard);
       this.pickCardAnimation = false;
-    }, 2500)
+      this.checkNextPlayer();
+    }, 2000)
+  }else {
+    this.readyToStart = false;
+  } 
 
+  }
+
+  checkNextPlayer() {
+    if (this.game.currentPlayer == this.game.players.length -1) {
+        this.game.currentPlayer = 0;
+    } else if (this.pickCardAnimation == false) {
+      this.game.currentPlayer++;
+    } {
+ 
+  }
+
+  console.log(this.game.stack.length);
   }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    dialogRef.afterClosed().subscribe((name: string) => {
+      if (name && name.trim() !== '') {
+        this.game.players.push(name);
+      }
     });
   }
+
 }
 
 

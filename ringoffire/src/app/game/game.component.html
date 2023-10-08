@@ -1,6 +1,8 @@
-<app-player class="player-container"    *ngFor="let player of game.players; let i =index;"  [name] = "player" [ngStyle]="{'top.px': 1 + (i * 120)}">
-   
+<app-player class="player-container"    *ngFor="let player of game.players; let i =index;" 
+[playerActive]="i == game.currentPlayer" [name] = "player" [ngStyle]="{'top.px': 1 + (i * 100)}">
 </app-player>
+
+
 
 <div class="playboard">
     <div class="card-stack">
@@ -13,3 +15,5 @@
 <button class="add-button"  (click)="openDialog()" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
     <mat-icon class="font-button">plus_one</mat-icon>
   </button>
+
+  <app-game-description  [class.show-alert]="!this.readyToStart" [card]="currentCard" class="game-description"></app-game-description>

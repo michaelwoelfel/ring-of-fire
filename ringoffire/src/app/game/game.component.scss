@@ -46,6 +46,12 @@
     position: absolute;
 }
 
+.show-alert {
+  color: red !important;;
+}
+
+
+
 
 @keyframes pick-card-animation {
     0% {
@@ -91,3 +97,4 @@
     justify-content: center;
     align-items: center;
 }
+
