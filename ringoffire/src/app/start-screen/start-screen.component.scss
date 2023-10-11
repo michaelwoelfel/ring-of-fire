@@ -1,5 +1,5 @@
 .start-screen {
-    background-image: url("../../assets/img/start-screen.jpg");
+    background-color: black;
     background-size: cover;
     background-repeat: no-repeat;
     width: 100vw;
@@ -11,6 +11,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     img {
         height: 150;
     }
@@ -18,6 +19,10 @@
 
 h1 {
     font-size: 80px;
+    border: 5px solid #FE5D01;
+    border-radius: 50%;
+    padding: 150px;
+    box-shadow: 0px 1px 20px 20px red;
 }
 .fire {
     color: #ff3f17;
@@ -27,29 +32,33 @@ h1 {
     position: absolute;
     top: 10%;
     left: 10%;
+    height: 150px;
 }
 
 .img-right {
     position: absolute;
     top: 10%;
     right: 10%;
+    height: 150px;
 }
 
 .img-right-bottom {
     position: absolute;
     bottom: 10%;
     right: 10%;
+    height: 150px;
 }
 
 .img-left-bottom {
     position: absolute;
     bottom: 10%;
     left: 10%;
+    height: 150px;
 }
 
 .glightbox_video {
     position: absolute;
-    top: 80%;
+    top: 88%;
     left: 50%;
     transform: translate(-50%, -50%);
     &:hover {
@@ -82,4 +91,67 @@ h1 {
       fill: white;
     transition:fill .4s .3s ease-out;
   }
+
+
+ 
+
+  @media only screen and (max-width: 1050px) {
+
+    h1 {
+        padding: 100px;
+    }
+
+}
+
+@media only screen and (max-width: 750px) {
+
+    h1 {
+        padding: 50px;
+    }
+
+}
+
+
+
+
+  @media only screen and (max-width: 600px) {
+
+    .glightbox_video {
+        top: 80%;
+    }
+
+    h1 {
+        font-size: 40px;
+    }
+
+    .img-left{
+        top: 2%;
+        left: 2%;
+    }
+
+    .img-right{
+        top: 2%;
+        right: 2%;
+    }
+
+    .img-right-bottom{
+        bottom: 2%;
+        right: 2%;
+    }
+
+    .img-left-bottom{
+        bottom: 2%;
+        left: 2%;
+    }
+  }
+
+
+  @media only screen and (max-width: 400px) {
+
+    img {
+        
+        height: 120px!important;
+    }
+
+}
 

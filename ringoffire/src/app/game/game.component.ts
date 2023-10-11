@@ -65,14 +65,14 @@ export class GameComponent implements OnInit {
 
   get cardArray(): number[] {
     const maxCards = 5;
-    let start = Math.max(maxCards - this.game.stack.length, 0);
+    let start = Math.max(maxCards - this.game.stack.length);
     console.log(start);
     if  ( this.game.stack.length == 0) {
       setTimeout(() => {
         this.gameOver = true;
-      }, 5000)
+      }, 3000)
     }
-    return [1, 2, 3, 4, 5].slice(start);
+    return [1, 2, 3, 4, 5].slice(start,0);
   
   }
   
