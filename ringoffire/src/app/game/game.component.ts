@@ -10,8 +10,9 @@ import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player
 })
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
-  readyToStart = true;;
+  readyToStart = true;
   currentCard: string = '';
+  screenWidth = window.innerWidth;
   game: Game;
   gameOver = false;
   constructor(public dialog: MatDialog) {
@@ -21,6 +22,7 @@ export class GameComponent implements OnInit {
 
   ngOnInit(): void {
     this.newGame();
+    
   }
 
   newGame() {
@@ -65,14 +67,14 @@ export class GameComponent implements OnInit {
 
   get cardArray(): number[] {
     const maxCards = 5;
-    let start = Math.max(maxCards - this.game.stack.length);
+    let start = Math.max(maxCards - this.game.stack.length,0);
     console.log(start);
     if  ( this.game.stack.length == 0) {
       setTimeout(() => {
         this.gameOver = true;
       }, 3000)
     }
-    return [1, 2, 3, 4, 5].slice(start,0);
+    return [1, 2, 3, 4, 5].slice(start);
   
   }
   
@@ -80,7 +82,7 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.trim() !== '') {
+      if (name && name.trim() !== '' && this.game.players.length < 10) {
         this.game.players.push(name);
       }
     });

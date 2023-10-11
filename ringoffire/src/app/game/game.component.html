@@ -1,6 +1,11 @@
-<app-player class="player-container"    *ngFor="let player of game.players; let i =index;" 
-[playerActive]="i == game.currentPlayer" [name] = "player" [ngStyle]="{'top.px': 1 + (i * 100)}">
+<div class="player-container-wrapper">
+<app-player 
+    class="player-container"    
+    *ngFor="let player of game.players; let i =index;" 
+    [playerActive]="i == game.currentPlayer" 
+    [name]="player">
 </app-player>
+</div>
 
 
 

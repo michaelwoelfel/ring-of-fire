@@ -15,10 +15,12 @@
 
 .card-stack {
     position: absolute;
+    bottom: 60%;
 
     img {
         position: absolute;
         height: 250px;
+        
     }
 }
 
@@ -33,18 +35,15 @@
 .pick-card {
     transition: all 125ms ease-in-out;
     animation: pick-card-animation 2s ease-in-out;
-    transform: scale(1.2) translateX(200px);
     transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg)
 }
 
 .playedCard {
     right: 25px;
-    transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg);
+    transform: scale(1.2) translateX(220px) translateY(-100px) rotate(20deg);
 }
 
-.player-container {
-    position: absolute;
-}
+
 
 .show-alert {
   color: red !important;;
@@ -63,8 +62,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 250px;
+    width: 50%;
+    height: 20%;
+    left: 25%;
+    top: 40%;
+    border-radius: 10px;
+    color: white;
 }
 
 
@@ -88,14 +91,14 @@
     }
 
     100% {
-        transform: scale(1.2) translateX(200px) translateY(-100px) rotate(20deg);
+        transform: scale(1.2) translateX(220px) translateY(-100px) rotate(20deg);
     }
 }
 
 .add-button {
     position: absolute;
     z-index: 100;
-    bottom: 5%;
+    bottom: 2%;
     left: 5%;
     width: 80px;
     height: 80px;
@@ -113,4 +116,76 @@
     justify-content: center;
     align-items: center;
 }
+
+
+@media only screen and (max-width: 500px) {
+    .add-button {
+        width: 60px;
+        height: 60px;
+    }
+
+    .card-stack {
+        position: absolute;
+    
+        img {
+            position: absolute;
+            height: 150px;
+        }
+    }
+
+ 
+
+    .playedCard {
+        right: 15px;
+        transform: scale(1.1) translateX(120px) translateY(-100px) rotate(10deg);
+    }
+
+    .pick-card {
+        transition: all 125ms ease-in-out;
+        animation: pick-card-animation-resp 2s ease-in-out;
+        transform: scale(1.2) translateX(100px) translateY(-100px) rotate(10deg)
+    }
+
+    @keyframes pick-card-animation-resp {
+        0% {
+            transform: scale(1);
+        }
+    
+        40% {
+            transform: scale(1.7);
+        }
+    
+        30% {
+            transform: scale(1.7);
+        }
+    
+    
+        50% {
+            transform: scale(1.7);
+        }
+    
+        100% {
+            transform: scale(1.2) translateX(100px) translateY(-100px) rotate(10deg);
+        }
+    }
+
+   
+}
+
+.player-container-wrapper {
+    display: flex;
+    background-color: transparent;
+    position: absolute;
+    flex-direction: column;
+    gap: 18px;
+}
+
+@media only screen and (max-width: 1100px) {
+
+    .player-container-wrapper {
+        width: 100%;
+        flex-direction: row;
+    }
+}
+
 

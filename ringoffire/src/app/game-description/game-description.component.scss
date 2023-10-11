@@ -1,9 +1,12 @@
 .game-description {
     position: absolute;
     bottom: 15px;
-    left: 15%;
+    left: 25%;
     width: 50%;
     text-align: center;
+    background-color: #593F3C;
+    border-radius: 10px;
+    color: white;
 }
 
 .bootstrap-alert {
@@ -17,4 +20,15 @@
     align-items: center;
    
 }
+
+
+@media only screen and (max-width: 500px) {
+
+   .game-description {
+        
+        left: 35%; 
+    }
+
+}
+
 
