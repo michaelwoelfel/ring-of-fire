@@ -35,10 +35,9 @@ export class GameComponent implements OnInit {
     const card = this.game.stack.pop();
     if (card !== undefined && !this.pickCardAnimation) {
       this.currentCard = card;
+      this.playAudio();
       this.pickCardAnimation = true;
-    } else {
-      console.log('No cards available');
-    }
+    } 
     this.pushCurrentCard();
   }else {
     this.readyToStart = false;
@@ -53,22 +52,26 @@ export class GameComponent implements OnInit {
     }, 2000)
   }
 
+
+  playAudio(){
+    let audio = new Audio();
+    audio.src = "assets/card-sound.mp3";
+    audio.load();
+    audio.play();
+  }
+
+
   checkNextPlayer() {
     if (this.game.currentPlayer == this.game.players.length -1) {
         this.game.currentPlayer = 0;
     } else if (this.pickCardAnimation == false) {
       this.game.currentPlayer++;
-    } {
- 
-  }
-  console.log( 'karten verfügbar',this.game.stack.length);
- 
+    } 
   }
 
   get cardArray(): number[] {
     const maxCards = 5;
     let start = Math.max(maxCards - this.game.stack.length,0);
-    console.log(start);
     if  ( this.game.stack.length == 0) {
       setTimeout(() => {
         this.gameOver = true;
