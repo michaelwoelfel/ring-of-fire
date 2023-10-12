@@ -2,28 +2,36 @@ import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
 import {MatDialog} from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
+import { ViewChild } from '@angular/core';
+import { GameDescriptionComponent } from 'src/app/game-description/game-description.component';
+
+
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.scss']
+  
 })
 export class GameComponent implements OnInit {
   pickCardAnimation = false;
-  readyToStart = true;
+  readyToStart = false;
   currentCard: string = '';
   screenWidth = window.innerWidth;
   game: Game;
   gameOver = false;
   constructor(public dialog: MatDialog) {
     this.game = new Game();
+    
 
   }
-
+  
   ngOnInit(): void {
     this.newGame();
     
+    
   }
+  @ViewChild(GameDescriptionComponent, { static: false }) gameDescription!: GameDescriptionComponent;
 
   newGame() {
     this.game = new Game();
@@ -31,16 +39,19 @@ export class GameComponent implements OnInit {
 
   pickCard() {
     if (this.game.players.length >= 2) {
-      this.readyToStart = true;
+      this.gameDescription.readyToStart = true;
+      
     const card = this.game.stack.pop();
     if (card !== undefined && !this.pickCardAnimation) {
+     
       this.currentCard = card;
       this.playAudio();
       this.pickCardAnimation = true;
     } 
     this.pushCurrentCard();
   }else {
-    this.readyToStart = false;
+    this.gameDescription.readyToStart = false;
+    
   } 
   }
 

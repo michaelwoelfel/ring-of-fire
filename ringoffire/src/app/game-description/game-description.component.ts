@@ -28,6 +28,7 @@ export class GameDescriptionComponent implements OnInit, OnChanges{
 
   title:string = '';
   description:string = '';
+  readyToStart = false;
 
   @Input() card: string = "";
 

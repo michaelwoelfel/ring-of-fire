@@ -1,3 +1,7 @@
+.show-alert {
+    color: red !important;
+  }
+
 .playboard {
     background-image: url("../../assets/img/wood.jpg");
     background-size: cover;
@@ -45,9 +49,7 @@
 
 
 
-.show-alert {
-  color: red !important;;
-}
+
 
 .hide-top-card{
     display: none!important;
