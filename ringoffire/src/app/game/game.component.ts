@@ -4,6 +4,13 @@ import {MatDialog} from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { ViewChild } from '@angular/core';
 import { GameDescriptionComponent } from 'src/app/game-description/game-description.component';
+import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
+import { Firestore,  collectionData,doc, onSnapshot, addDoc, deleteDoc, orderBy,collection } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { updateDoc } from "firebase/firestore";
+import { query, where,limit} from "firebase/firestore";
+
 
 
 
@@ -14,21 +21,38 @@ import { GameDescriptionComponent } from 'src/app/game-description/game-descript
   
 })
 export class GameComponent implements OnInit {
+  firestore: Firestore = inject(Firestore);
   pickCardAnimation = false;
   readyToStart = false;
   currentCard: string = '';
   screenWidth = window.innerWidth;
   game: Game;
   gameOver = false;
+  unsubGames;
+
+
+  //  items$;
+  // items;
+
+  games: Partial<Game>[] = [];
   constructor(public dialog: MatDialog) {
     this.game = new Game();
+    this.unsubGames = this.subGamesList();
+  //   this.items$ = collectionData(this.getGameRef());
+  //   this.items = this.items$.subscribe((list)=> {
+  //     list.forEach(element => {
+  //       console.log(element);
+  //     });
+  //   });
     
+  // 
 
   }
   
+  
   ngOnInit(): void {
     this.newGame();
-    
+    // this.unsubGames = this.subGamesList();
     
   }
   @ViewChild(GameDescriptionComponent, { static: false }) gameDescription!: GameDescriptionComponent;
@@ -37,6 +61,25 @@ export class GameComponent implements OnInit {
     this.game = new Game();
   }
 
+  subGamesList() {
+     return onSnapshot(this.getGameRef(), (list)=> {
+      this.games = [];
+        list.forEach(element => {
+          this.games.push(this.game.toJson(),element.data());
+          console.log(element.data());
+        });
+      });
+  }
+
+
+  
+
+
+
+  ngOnDestroy() {
+    this.unsubGames();
+      // this.items.unsubscribe();
+  }
   pickCard() {
     if (this.game.players.length >= 2) {
       this.gameDescription.readyToStart = true;
@@ -91,6 +134,11 @@ export class GameComponent implements OnInit {
     return [1, 2, 3, 4, 5].slice(start);
   
   }
+
+  getGameRef(){
+    return collection(this.firestore, 'games')
+   }
+
   
 
   openDialog(): void {

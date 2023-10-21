@@ -11,17 +11,26 @@ export class Game {
             this.stack.push('clubs_' + i);
             this.stack.push('diamonds_' + i);
         }
-       this.shuffle(this.stack);
+        this.shuffle(this.stack);
+    }
+
+    toJson() {
+        return {
+            players: this.players,
+            stack: this.stack,
+            playedCard: this.playedCard,  
+            currentPlayer: this.currentPlayer,
+        }
     }
 
 
-   shuffle<T>(array: T[]): T[] {
-        let currentIndex = array.length,  randomIndex;
+    shuffle<T>(array: T[]): T[] {
+        let currentIndex = array.length, randomIndex;
         while (currentIndex != 0) {
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex--;
-          [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex], array[currentIndex]];
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+                array[randomIndex], array[currentIndex]];
         }
         return array;
     };
