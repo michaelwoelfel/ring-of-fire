@@ -10,40 +10,36 @@ import { Firestore, collectionData, doc, onSnapshot, addDoc, deleteDoc, orderBy,
 import { Observable } from 'rxjs';
 import { DocumentData, updateDoc } from "firebase/firestore";
 import { query, where, limit, } from "firebase/firestore";
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import { DocumentChange } from '@angular/fire/firestore';
-import { GameServiceService } from '../game-service/game-service.service';
 
 
-
-
-@Component({
-  selector: 'app-game',
-  templateUrl: './game.component.html',
-  styleUrls: ['./game.component.scss']
-
+@Injectable({
+  providedIn: 'root'
 })
-export class GameComponent implements OnInit {
+
+
+export class GameServiceService {
   firestore: Firestore = inject(Firestore);
   pickCardAnimation = false;
   readyToStart = false;
   currentCard: string = '';
   screenWidth = window.innerWidth;
   game: Game;
-  gameOver = false
+  gameOver = false;
+  unsubGames;
   gameId: any;
   gameSubscription: any;
-
-
-  // items$;
-  // items;
 
   games: Partial<Game>[] = [];
 
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, private gameService: GameServiceService) {
+  constructor(public dialog: MatDialog, private route: ActivatedRoute) {
     this.game = new Game();
     // this.subGamesListWidthItemMethod();
+
+    this.unsubGames = this.subGamesList();
+
     // this.items$ = collectionData(this.getGameRef());
     // this.items = this.items$.subscribe((list) => {
     //   list.forEach(element => {
@@ -52,26 +48,68 @@ export class GameComponent implements OnInit {
     // });
 
   }
-  ngOnInit(): void {
-    this.route.params.subscribe((params)=> {
-      this.gameService.gameId = params['id'];
-      console.log(this.gameService.gameId);
 
-      this.gameSubscription = docData(this.gameService.getSingleGameRef("games",this.gameService.gameId)).subscribe((gameData: any )=> {
-        if (gameData) {
-         this.game.players = gameData.players;
-         this.game.stack = gameData.stack;
-         this.game.playedCard = gameData.playedCard;
-         this.game.currentPlayer = gameData.currentPlayer;
-        }
-        });
+
+  ngOnInit(): void {
+
+    this.route.params.subscribe((params)=> {
+      this.gameId = params['id'];
+      console.log(this.gameId);
     })
 
-    
   }
   @ViewChild(GameDescriptionComponent, { static: false }) gameDescription!: GameDescriptionComponent;
 
+  newGame() {
+    this.game = new Game();
+    
+  
+  }
 
+  subGamesListWidthItemMethod() {
+   
+  }
+
+  async updateGame() {
+     let docRef = this.getSingleGameRef("games",this.gameId);
+         updateDoc(docRef, this.game.toJson()).catch(
+          (error) => { console.log(error); }
+        );
+  }
+
+  async addGame(gameObj: any) {
+        const docRef = await addDoc(this.getGameRef(), gameObj);
+        console.log("Document written with ID: ", docRef.id);
+        this.gameId = docRef.id;
+        return docRef.id; 
+   
+}
+
+
+  subGamesList() {
+    return onSnapshot(this.getGameRef(), (list) => {
+      this.games = [];
+      list.forEach(gamedoc => {
+        this.games.push(gamedoc.data());
+        let newGame = gamedoc.data();
+        this.game.currentPlayer = newGame["currentPlayer"];
+        this.game.playedCard = newGame["playedCard"];
+        this.game.players = newGame["players"];
+        this.game.stack = newGame["stack"];
+      });
+    });
+  }
+
+
+
+
+
+
+  ngOnDestroy() {
+    this.unsubGames();
+    // this.items.unsubscribe();
+    this.gameSubscription.unsubscribe();
+  }
   pickCard() {
     if (this.game.players.length >= 2) {
       this.gameDescription.readyToStart = true;
@@ -110,8 +148,8 @@ export class GameComponent implements OnInit {
     } else if (this.pickCardAnimation == false) {
       this.game.currentPlayer++;
     }
-    this.gameService.updateGame();
-
+    this.updateGame();
+    
   }
 
   get cardArray(): number[] {
@@ -126,6 +164,15 @@ export class GameComponent implements OnInit {
 
   }
 
+  getGameRef() {
+    return collection(this.firestore, 'games');
+  }
+
+  getSingleGameRef(colId:string, docId: string) {
+    return doc(collection(this.firestore, colId), docId);
+   }
+
+
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
@@ -136,6 +183,5 @@ export class GameComponent implements OnInit {
     });
   }
 
+
 }
-
-
