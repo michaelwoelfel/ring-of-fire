@@ -52,10 +52,7 @@ export class GameServiceService {
 
   ngOnInit(): void {
 
-    this.route.params.subscribe((params)=> {
-      this.gameId = params['id'];
-      console.log(this.gameId);
-    })
+   
 
   }
   @ViewChild(GameDescriptionComponent, { static: false }) gameDescription!: GameDescriptionComponent;
@@ -89,9 +86,10 @@ export class GameServiceService {
   subGamesList() {
     return onSnapshot(this.getGameRef(), (list) => {
       this.games = [];
-      list.forEach(gamedoc => {
-        this.games.push(gamedoc.data());
-        let newGame = gamedoc.data();
+      list.forEach(element => {
+        this.games.push(this.game.toJson(),element.data());
+        console.log(element.data());
+        let newGame = element.data();
         this.game.currentPlayer = newGame["currentPlayer"];
         this.game.playedCard = newGame["playedCard"];
         this.game.players = newGame["players"];
@@ -148,8 +146,7 @@ export class GameServiceService {
     } else if (this.pickCardAnimation == false) {
       this.game.currentPlayer++;
     }
-    this.updateGame();
-    
+ 
   }
 
   get cardArray(): number[] {

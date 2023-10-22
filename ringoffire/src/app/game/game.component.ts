@@ -10,7 +10,7 @@ import { Firestore, collectionData, doc, onSnapshot, addDoc, deleteDoc, orderBy,
 import { Observable } from 'rxjs';
 import { DocumentData, updateDoc } from "firebase/firestore";
 import { query, where, limit, } from "firebase/firestore";
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import { DocumentChange } from '@angular/fire/firestore';
 import { GameServiceService } from '../game-service/game-service.service';
 
@@ -29,20 +29,19 @@ export class GameComponent implements OnInit {
   readyToStart = false;
   currentCard: string = '';
   screenWidth = window.innerWidth;
-  game: Game;
+  game = this.gameService.game;
   gameOver = false
-  gameId: any;
   gameSubscription: any;
 
 
   // items$;
   // items;
 
-  games: Partial<Game>[] = [];
 
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, private gameService: GameServiceService) {
-    this.game = new Game();
+
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, private gameService:GameServiceService) {
+  
     // this.subGamesListWidthItemMethod();
     // this.items$ = collectionData(this.getGameRef());
     // this.items = this.items$.subscribe((list) => {
@@ -56,20 +55,12 @@ export class GameComponent implements OnInit {
     this.route.params.subscribe((params)=> {
       this.gameService.gameId = params['id'];
       console.log(this.gameService.gameId);
-
-      this.gameSubscription = docData(this.gameService.getSingleGameRef("games",this.gameService.gameId)).subscribe((gameData: any )=> {
-        if (gameData) {
-         this.game.players = gameData.players;
-         this.game.stack = gameData.stack;
-         this.game.playedCard = gameData.playedCard;
-         this.game.currentPlayer = gameData.currentPlayer;
-        }
-        });
     })
-
-    
   }
   @ViewChild(GameDescriptionComponent, { static: false }) gameDescription!: GameDescriptionComponent;
+
+
+
 
 
   pickCard() {
@@ -85,6 +76,7 @@ export class GameComponent implements OnInit {
     } else {
       this.gameDescription.readyToStart = false;
     }
+   
   }
 
   pushCurrentCard() {
@@ -111,7 +103,9 @@ export class GameComponent implements OnInit {
       this.game.currentPlayer++;
     }
     this.gameService.updateGame();
-
+    console.log(this.gameService.gameId)
+   
+    
   }
 
   get cardArray(): number[] {
