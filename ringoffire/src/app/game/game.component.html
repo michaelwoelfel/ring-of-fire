@@ -1,25 +1,24 @@
 <div class="player-container-wrapper">
-<app-player 
-    class="player-container"    
-    *ngFor="let player of game.players; let i =index;" 
-    [playerActive]="i == game.currentPlayer" 
-    [name]="player">
-</app-player>
+    <app-player 
+        class="player-container"    
+        *ngFor="let player of this.gameService.game.players; let i = index;" 
+        [playerActive]="i == this.gameService.game.currentPlayer" 
+        [name]="player">
+    </app-player>
 </div>
-
-
 
 <div class="playboard">
     <div class="card-stack">
         <img [ngStyle] ="{'right.px': i * 5}"  *ngFor="let c of cardArray; let i = index;" src="assets\img\card_cover.png">
-        <img (click)="pickCard()" *ngIf="!gameOver" class="top-card" style="right: 25px" src="assets\img\card_cover.png">
-        <img class="playedCard"   *ngFor="let card of game.playedCard" src="assets\img\{{ card }}.png">
-        <img (click)="pickCard()" *ngIf="pickCardAnimation" [class.pick-card]="pickCardAnimation"  style="right: 25px" src="assets\img\{{ currentCard }}.png">
+        <img (click)="pickCard()" *ngIf="!this.gameService.game.gameOver" class="top-card" style="right: 25px" src="assets\img\card_cover.png">
+        <img class="playedCard"   *ngFor="let card of this.gameService.game.playedCard" src="assets\img\{{ card }}.png">
+        <img (click)="pickCard()" *ngIf="this.gameService.game.pickCardAnimation" [class.pick-card]="this.gameService.game.pickCardAnimation"  style="right: 25px" src="assets\img\{{ this.gameService.game.currentCard }}.png">
     </div>
 </div>
+
 <button class="add-button"  (click)="openDialog()" mat-mini-fab color="accent" aria-label="Example icon button with a plus one icon">
     <mat-icon class="font-button">plus_one</mat-icon>
-  </button>
+</button>
 
-  <app-game-description  [class.show-alert]="!this.readyToStart" [card]="currentCard" class="game-description"></app-game-description>
-  <app-endscreen class="endscreen" *ngIf="gameOver" ></app-endscreen>
+<app-game-description [class.show-alert]="!this.gameService.game.readyToStart" [card]="this.gameService.game.currentCard" class="game-description"></app-game-description>
+<app-endscreen class="endscreen" *ngIf="this.gameService.game.gameOver" ></app-endscreen>

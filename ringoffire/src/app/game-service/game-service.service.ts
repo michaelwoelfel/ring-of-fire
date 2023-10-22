@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from 'src/models/game';
+import { GameComponent } from '../game/game.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddPlayerComponent } from '../dialog-add-player/dialog-add-player.component';
 import { ViewChild } from '@angular/core';
@@ -94,6 +95,11 @@ export class GameServiceService {
         this.game.playedCard = newGame["playedCard"];
         this.game.players = newGame["players"];
         this.game.stack = newGame["stack"];
+        this.game.pickCardAnimation = newGame["pickCardAnimation"];
+        this.game.readyToStart = newGame["readyToStart"];
+        this.game.currentCard = newGame["currentCard"];
+        this.game.gameOver = newGame["gameOver"];
+
       });
     });
   }

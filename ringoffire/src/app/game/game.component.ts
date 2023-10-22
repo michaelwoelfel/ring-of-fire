@@ -25,12 +25,10 @@ import { GameServiceService } from '../game-service/game-service.service';
 })
 export class GameComponent implements OnInit {
   firestore: Firestore = inject(Firestore);
-  pickCardAnimation = false;
-  readyToStart = false;
-  currentCard: string = '';
+  
   screenWidth = window.innerWidth;
-  game = this.gameService.game;
-  gameOver = false
+
+ 
   gameSubscription: any;
 
 
@@ -40,7 +38,7 @@ export class GameComponent implements OnInit {
 
 
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute, private gameService:GameServiceService) {
+  constructor(public dialog: MatDialog, private route: ActivatedRoute, public gameService:GameServiceService, ) {
   
     // this.subGamesListWidthItemMethod();
     // this.items$ = collectionData(this.getGameRef());
@@ -51,12 +49,17 @@ export class GameComponent implements OnInit {
     // });
 
   }
-  ngOnInit(): void {
-    this.route.params.subscribe((params)=> {
-      this.gameService.gameId = params['id'];
-      console.log(this.gameService.gameId);
-    })
-  }
+
+      ngOnInit(): void {
+        this.route.params.subscribe((params)=> {
+          this.gameService.gameId = params['id'];
+          console.log(this.gameService.gameId);
+    
+        
+        })
+    
+        
+      }
   @ViewChild(GameDescriptionComponent, { static: false }) gameDescription!: GameDescriptionComponent;
 
 
@@ -64,13 +67,14 @@ export class GameComponent implements OnInit {
 
 
   pickCard() {
-    if (this.game.players.length >= 2) {
+    if (this.gameService.game.players.length >= 2) {
+      console.log(this.gameService.game.players.length);
       this.gameDescription.readyToStart = true;
-      const card = this.game.stack.pop();
-      if (card !== undefined && !this.pickCardAnimation) {
-        this.currentCard = card;
+      const card = this.gameService.game.stack.pop();
+      if (card !== undefined && !this.gameService.game.pickCardAnimation) {
+        this.gameService.game.currentCard = card;
         this.playAudio();
-        this.pickCardAnimation = true;
+        this.gameService.game.pickCardAnimation = true;
       }
       this.pushCurrentCard();
     } else {
@@ -81,8 +85,8 @@ export class GameComponent implements OnInit {
 
   pushCurrentCard() {
     setTimeout(() => {
-      this.game.playedCard.push(this.currentCard);
-      this.pickCardAnimation = false;
+      this.gameService.game.playedCard.push(this.gameService.game.currentCard);
+      this.gameService.game.pickCardAnimation = false;
       this.checkNextPlayer();
     }, 2000)
   }
@@ -97,10 +101,10 @@ export class GameComponent implements OnInit {
 
 
   checkNextPlayer() {
-    if (this.game.currentPlayer == this.game.players.length - 1) {
-      this.game.currentPlayer = 0;
-    } else if (this.pickCardAnimation == false) {
-      this.game.currentPlayer++;
+    if (this.gameService.game.currentPlayer == this.gameService.game.players.length - 1) {
+      this.gameService.game.currentPlayer = 0;
+    } else if (this.gameService.game.pickCardAnimation == false) {
+      this.gameService.game.currentPlayer++;
     }
     this.gameService.updateGame();
     console.log(this.gameService.gameId)
@@ -110,10 +114,10 @@ export class GameComponent implements OnInit {
 
   get cardArray(): number[] {
     const maxCards = 5;
-    let start = Math.max(maxCards - this.game.stack.length, 0);
-    if (this.game.stack.length == 0) {
+    let start = Math.max(maxCards - this.gameService.game.stack.length, 0);
+    if (this.gameService.game.stack.length == 0) {
       setTimeout(() => {
-        this.gameOver = true;
+        this.gameService.game.gameOver = true;
       }, 3000)
     }
     return [1, 2, 3, 4, 5].slice(start);
@@ -124,8 +128,8 @@ export class GameComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);
     dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.trim() !== '' && this.game.players.length < 10) {
-        this.game.players.push(name);
+      if (name && name.trim() !== '' && this.gameService.game.players.length < 10) {
+        this.gameService.game.players.push(name);
       }
     });
   }
