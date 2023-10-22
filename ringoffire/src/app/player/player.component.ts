@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { GameServiceService } from '../game-service/game-service.service';
 
 @Component({
   selector: 'app-player',
@@ -8,7 +9,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PlayerComponent implements OnInit {
   @Input() name:string = '';
   @Input() playerActive: boolean = false;
-  constructor() {
+  constructor(public gameService: GameServiceService) {
    
   }
 

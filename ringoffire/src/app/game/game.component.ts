@@ -13,6 +13,7 @@ import { query, where, limit, } from "firebase/firestore";
 import {ActivatedRoute} from '@angular/router';
 import { DocumentChange } from '@angular/fire/firestore';
 import { GameServiceService } from '../game-service/game-service.service';
+import { EditPlayerComponent } from '../edit-player/edit-player.component';
 
 
 
@@ -92,6 +93,19 @@ export class GameComponent implements OnInit {
   }
 
 
+  
+  public changeSrc(type:string) {
+    let newSrc: string;
+    if (type == "male") {
+      newSrc= "assets/img/person.png"
+    } else {
+      newSrc = "assets/img/person-female.png"
+    }
+    console.log(newSrc)
+  this.gameService.picSrc = newSrc;
+  }
+
+
   playAudio() {
     let audio = new Audio();
     audio.src = "assets/card-sound.mp3";
@@ -123,7 +137,13 @@ export class GameComponent implements OnInit {
     return [1, 2, 3, 4, 5].slice(start);
 
   }
+  editPlayer(i:number): void {
+    const dialogRef = this.dialog.open(EditPlayerComponent);
+    dialogRef.afterClosed();
+      
+  }
 
+ 
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogAddPlayerComponent);

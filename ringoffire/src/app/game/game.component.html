@@ -1,5 +1,5 @@
 <div class="player-container-wrapper">
-    <app-player 
+    <app-player (click)="editPlayer(i)"
         class="player-container"    
         *ngFor="let player of this.gameService.game.players; let i = index;" 
         [playerActive]="i == this.gameService.game.currentPlayer" 

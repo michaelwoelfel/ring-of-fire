@@ -20,7 +20,7 @@ import { DocumentChange } from '@angular/fire/firestore';
 })
 
 
-export class GameServiceService {
+export class  GameServiceService {
   firestore: Firestore = inject(Firestore);
   pickCardAnimation = false;
   readyToStart = false;
@@ -31,6 +31,7 @@ export class GameServiceService {
   unsubGames;
   gameId: any;
   gameSubscription: any;
+  picSrc = "assets/img/person-female.png";
 
   games: Partial<Game>[] = [];
 
@@ -174,6 +175,18 @@ export class GameServiceService {
   getSingleGameRef(colId:string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
    }
+
+
+   public changeSrc(type:string) {
+    let newSrc: string;
+    if (type == "male") {
+      newSrc= "assets/img/person.png"
+    } else {
+      newSrc = "assets/img/person-female.png"
+    }
+    console.log(newSrc)
+  this.picSrc = newSrc;
+  }
 
 
 
