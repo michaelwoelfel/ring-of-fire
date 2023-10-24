@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { GameServiceService } from '../game-service/game-service.service';
 
 @Component({
   selector: 'app-endscreen',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EndscreenComponent implements OnInit {
 
-  constructor() {
+  constructor(private gameService: GameServiceService) {
     
   }
 
@@ -15,7 +16,7 @@ export class EndscreenComponent implements OnInit {
  
   }
 restartGame() {
-  window.location.reload();
+ this.gameService.newGame();
 }
 
 }

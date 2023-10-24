@@ -24,4 +24,4 @@
 </button>
 
 <app-game-description [class.show-alert]="!this.gameService.game.readyToStart" [card]="this.gameService.game.currentCard" class="game-description"></app-game-description>
-<app-endscreen class="endscreen" *ngIf="this.gameService.game.gameOver" ></app-endscreen>
+<app-endscreen class="hide-endscreen" [class.show-endscreen]="this.gameService.game.gameOver" ></app-endscreen>

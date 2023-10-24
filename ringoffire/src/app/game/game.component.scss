@@ -55,12 +55,12 @@
     display: none!important;
 }
 
-.endscreen {
+.show-endscreen {
     text-align: center;
     position: absolute;
     top: 50%;
     background-color: white;
-    display: flex;
+    display: flex!important;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -70,6 +70,10 @@
     top: 40%;
     border-radius: 10px;
     color: white;
+}
+
+.hide-endscreen {
+    display: none;
 }
 
 
