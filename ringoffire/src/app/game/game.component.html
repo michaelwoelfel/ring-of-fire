@@ -1,10 +1,13 @@
 <div class="player-container-wrapper">
-    <app-player (click)="editPlayer(i)"
-        class="player-container"    
-        *ngFor="let player of this.gameService.game.players; let i = index;" 
-        [playerActive]="i == this.gameService.game.currentPlayer" 
-        [name]="player">
-    </app-player>
+
+    <app-player (click)="this.gameService.editPlayer(i)"
+    class="player-container"    
+    *ngFor="let player of this.gameService.game.players; let i = index;" 
+    [playerActive]="i == this.gameService.game.currentPlayer" 
+    [name]="player.name"  [picture]="this.player.picture"> 
+    
+    
+</app-player>
 </div>
 
 <div class="playboard">

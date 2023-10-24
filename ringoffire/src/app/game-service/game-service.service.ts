@@ -13,6 +13,9 @@ import { DocumentData, updateDoc } from "firebase/firestore";
 import { query, where, limit, } from "firebase/firestore";
 import {ActivatedRoute} from '@angular/router';
 import { DocumentChange } from '@angular/fire/firestore';
+import { EditPlayerComponent } from '../player/edit-player/edit-player.component';
+import { MatDialogRef } from '@angular/material/dialog';
+
 
 
 @Injectable({
@@ -30,13 +33,14 @@ export class  GameServiceService {
   gameOver = false;
   unsubGames;
   gameId: any;
+  playerIndex: number = 0;
   gameSubscription: any;
   picSrc = "assets/img/person-female.png";
 
   games: Partial<Game>[] = [];
 
 
-  constructor(public dialog: MatDialog, private route: ActivatedRoute) {
+  constructor(public dialog: MatDialog, private route: ActivatedRoute,) {
     this.game = new Game();
     // this.subGamesListWidthItemMethod();
 
@@ -50,6 +54,8 @@ export class  GameServiceService {
     // });
 
   }
+
+ 
 
 
   ngOnInit(): void {
@@ -65,9 +71,6 @@ export class  GameServiceService {
   
   }
 
-  subGamesListWidthItemMethod() {
-   
-  }
 
   async updateGame() {
      let docRef = this.getSingleGameRef("games",this.gameId);
@@ -85,6 +88,22 @@ export class  GameServiceService {
 }
 
 
+
+editPlayer(i:number): void {
+  const dialogRef = this.dialog.open(EditPlayerComponent);
+  console.log("Nummer des Spielers:", i);
+  dialogRef.afterClosed().subscribe((picture: string) => {
+
+  this.game.players[i].picture = this.picSrc;
+ 
+ 
+ 
+ 
+  });
+}
+
+
+
   subGamesList() {
     return onSnapshot(this.getGameRef(), (list) => {
       this.games = [];
@@ -95,6 +114,7 @@ export class  GameServiceService {
         this.game.currentPlayer = newGame["currentPlayer"];
         this.game.playedCard = newGame["playedCard"];
         this.game.players = newGame["players"];
+        console.log(this.game.players);
         this.game.stack = newGame["stack"];
         this.game.pickCardAnimation = newGame["pickCardAnimation"];
         this.game.readyToStart = newGame["readyToStart"];
@@ -177,27 +197,8 @@ export class  GameServiceService {
    }
 
 
-   public changeSrc(type:string) {
-    let newSrc: string;
-    if (type == "male") {
-      newSrc= "assets/img/person.png"
-    } else {
-      newSrc = "assets/img/person-female.png"
-    }
-    console.log(newSrc)
-  this.picSrc = newSrc;
-  }
+ 
 
-
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-    dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.trim() !== '' && this.game.players.length < 10) {
-        this.game.players.push(name);
-      }
-    });
-  }
 
 
 }

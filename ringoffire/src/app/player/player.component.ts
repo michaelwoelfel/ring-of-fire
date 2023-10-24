@@ -9,6 +9,7 @@ import { GameServiceService } from '../game-service/game-service.service';
 export class PlayerComponent implements OnInit {
   @Input() name:string = '';
   @Input() playerActive: boolean = false;
+  @Input() picture:string = '';
   constructor(public gameService: GameServiceService) {
    
   }

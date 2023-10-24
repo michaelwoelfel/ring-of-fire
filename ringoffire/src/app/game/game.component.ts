@@ -13,7 +13,7 @@ import { query, where, limit, } from "firebase/firestore";
 import {ActivatedRoute} from '@angular/router';
 import { DocumentChange } from '@angular/fire/firestore';
 import { GameServiceService } from '../game-service/game-service.service';
-import { EditPlayerComponent } from '../edit-player/edit-player.component';
+import { EditPlayerComponent } from '../player/edit-player/edit-player.component';
 
 
 
@@ -94,16 +94,7 @@ export class GameComponent implements OnInit {
 
 
   
-  public changeSrc(type:string) {
-    let newSrc: string;
-    if (type == "male") {
-      newSrc= "assets/img/person.png"
-    } else {
-      newSrc = "assets/img/person-female.png"
-    }
-    console.log(newSrc)
-  this.gameService.picSrc = newSrc;
-  }
+ 
 
 
   playAudio() {
@@ -137,22 +128,20 @@ export class GameComponent implements OnInit {
     return [1, 2, 3, 4, 5].slice(start);
 
   }
-  editPlayer(i:number): void {
-    const dialogRef = this.dialog.open(EditPlayerComponent);
-    dialogRef.afterClosed();
-      
-  }
 
+
+  
  
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogAddPlayerComponent);
-    dialogRef.afterClosed().subscribe((name: string) => {
-      if (name && name.trim() !== '' && this.gameService.game.players.length < 10) {
-        this.gameService.game.players.push(name);
-      }
-    });
-  }
+openDialog(): void {
+  const dialogRef = this.dialog.open(DialogAddPlayerComponent);
+  dialogRef.afterClosed().subscribe((name: string) => {
+    if (name && name.trim() !== '' && this.gameService.game.players.length < 10) {
+      this.gameService.game.players.push({name:name, picture: this.gameService.picSrc});
+      console.log("Neuer Spieler:",this.gameService.game.players);
+    }
+  });
+}
 
 }
 

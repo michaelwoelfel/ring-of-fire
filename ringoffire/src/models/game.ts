@@ -1,5 +1,5 @@
 export class Game {
-    public players: string[] = [];
+    public players: {name: string, picture: string}[] = [];
     public stack: string[] = [];
     public playedCard: string[] = [];
     public currentPlayer: number = 0;
@@ -7,7 +7,7 @@ export class Game {
     public readyToStart: boolean = false;
     public currentCard: string = '';
     public gameOver: boolean = false;
-
+  
     constructor() {
         for (let i = 1; i < 14; i++) {
             this.stack.push('ace_' + i);
