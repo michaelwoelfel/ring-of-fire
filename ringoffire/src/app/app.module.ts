@@ -22,6 +22,9 @@ import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { CommonModule } from '@angular/common';
+import { EditPlayerComponent } from './player/edit-player/edit-player.component';
+
 
 @NgModule({
   declarations: [
@@ -32,6 +35,7 @@ import { provideDatabase,getDatabase } from '@angular/fire/database';
     DialogAddPlayerComponent,
     GameDescriptionComponent,
     EndscreenComponent,
+    EditPlayerComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -121,10 +121,6 @@ editPlayer(i:number): void {
     });
   }
 
-
-
-
-
   /**
    * Cleans up subscriptions on component destruction.
    */
@@ -154,6 +150,7 @@ editPlayer(i:number): void {
     }
   }
 
+  
    /**
    * Pushes the current card to the played card array with a delay.
    * Also manages the next player logic.

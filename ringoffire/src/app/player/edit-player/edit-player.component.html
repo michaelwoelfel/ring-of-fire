@@ -1,2 +1,4 @@
-<img (click)="this.selectPicture('female')" class="profile-picture" src="assets/img/person-female.png">
-<img (click)="this.selectPicture('male')" class="profile-picture"src="assets/img/person.png">
+
+<ng-container *ngFor="let picture of playerPictures; let i = index;">
+<img  (click)="this.selectPicture(picture)" class="profile-picture" src="assets/img/{{picture}}">
+</ng-container>
