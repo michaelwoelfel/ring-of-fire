@@ -17,11 +17,9 @@ import { EditPlayerComponent } from '../player/edit-player/edit-player.component
 import { MatDialogRef } from '@angular/material/dialog';
 
 
-
 @Injectable({
   providedIn: 'root'
 })
-
 
 export class  GameServiceService {
   firestore: Firestore = inject(Firestore);
@@ -36,42 +34,37 @@ export class  GameServiceService {
   playerIndex: number = 0;
   gameSubscription: any;
   picSrc = "assets/img/person-female.png";
-
   games: Partial<Game>[] = [];
 
 
   constructor(public dialog: MatDialog, private route: ActivatedRoute,) {
     this.game = new Game();
     // this.subGamesListWidthItemMethod();
-
     this.unsubGames = this.subGamesList();
-
     // this.items$ = collectionData(this.getGameRef());
     // this.items = this.items$.subscribe((list) => {
     //   list.forEach(element => {
     //   this.games.push(element);
     //   });
     // });
-
   }
 
  
-
-
   ngOnInit(): void {
-
-   
-
   }
   @ViewChild(GameDescriptionComponent, { static: false }) gameDescription!: GameDescriptionComponent;
 
+    /**
+   * Creates a new game instance.
+   */
   newGame() {
     this.game = new Game();
-    
-  
   }
 
-
+  /**
+   * Updates the current game state in the Firestore database.
+   * Handles errors by logging to the console.
+   */
   async updateGame() {
      let docRef = this.getSingleGameRef("games",this.gameId);
          updateDoc(docRef, this.game.toJson()).catch(
@@ -79,31 +72,35 @@ export class  GameServiceService {
         );
   }
 
+  /**
+   * Adds a new game to the Firestore database and sets the current game ID.
+   * Logs the document ID to the console.
+   * 
+   */
   async addGame(gameObj: any) {
         const docRef = await addDoc(this.getGameRef(), gameObj);
         console.log("Document written with ID: ", docRef.id);
         this.gameId = docRef.id;
         return docRef.id; 
-   
 }
 
-
-
+  /**
+   * Opens a dialog to edit a player and updates the player's picture on dialog close.
+   * 
+   */
 editPlayer(i:number): void {
   const dialogRef = this.dialog.open(EditPlayerComponent);
   console.log("Nummer des Spielers:", i);
   dialogRef.afterClosed().subscribe((picture: string) => {
-
   this.game.players[i].picture = this.picSrc;
- 
- 
- 
- 
   });
 }
 
-
-
+  /**
+   * Subscribes to game list updates from Firestore.
+   * Updates the local game state with changes from Firestore.
+   * 
+   */
   subGamesList() {
     return onSnapshot(this.getGameRef(), (list) => {
       this.games = [];
@@ -120,7 +117,6 @@ editPlayer(i:number): void {
         this.game.readyToStart = newGame["readyToStart"];
         this.game.currentCard = newGame["currentCard"];
         this.game.gameOver = newGame["gameOver"];
-
       });
     });
   }
@@ -129,12 +125,20 @@ editPlayer(i:number): void {
 
 
 
-
+  /**
+   * Cleans up subscriptions on component destruction.
+   */
   ngOnDestroy() {
     this.unsubGames();
     // this.items.unsubscribe();
     this.gameSubscription.unsubscribe();
   }
+
+
+   /**
+   * Handles the logic for picking a card from the game stack.
+   * Manages animations and checks the next player's turn.
+   */
   pickCard() {
     if (this.game.players.length >= 2) {
       this.gameDescription.readyToStart = true;
@@ -150,6 +154,10 @@ editPlayer(i:number): void {
     }
   }
 
+   /**
+   * Pushes the current card to the played card array with a delay.
+   * Also manages the next player logic.
+   */
   pushCurrentCard() {
     setTimeout(() => {
       this.game.playedCard.push(this.currentCard);
@@ -159,6 +167,9 @@ editPlayer(i:number): void {
   }
 
 
+    /**
+   * Plays a card sound effect from assets.
+   */
   playAudio() {
     let audio = new Audio();
     audio.src = "assets/card-sound.mp3";
@@ -166,16 +177,21 @@ editPlayer(i:number): void {
     audio.play();
   }
 
-
+ /**
+   * Checks and updates the index of the next player.
+   */
   checkNextPlayer() {
     if (this.game.currentPlayer == this.game.players.length - 1) {
       this.game.currentPlayer = 0;
     } else if (this.pickCardAnimation == false) {
       this.game.currentPlayer++;
     }
- 
   }
 
+
+  /**
+   * Gets an array representing the remaining cards in the stack.
+   */
   get cardArray(): number[] {
     const maxCards = 5;
     let start = Math.max(maxCards - this.game.stack.length, 0);
@@ -185,20 +201,21 @@ editPlayer(i:number): void {
       }, 3000)
     }
     return [1, 2, 3, 4, 5].slice(start);
-
   }
 
+
+/**
+   * Gets a Firestore collection reference for games.
+   */
   getGameRef() {
     return collection(this.firestore, 'games');
   }
 
+   /**
+   * Gets a Firestore document reference for a single game.
+   * 
+   */
   getSingleGameRef(colId:string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
    }
-
-
- 
-
-
-
 }
